@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Putzplan">
+<meta name="theme-color" content="#1A1A2E">
+<title>Putzplan Nordhorn</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--ink:#1A1A2E;--gold:#C9A84C;--gl:#EDD98A;--cr:#FAF7F0;--red:#E24B4A}
+html,body{background:var(--cr);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;overflow-x:hidden}
+#wa-hint{display:none;background:#fff8e1;padding:10px 14px;font-size:12px;color:#7a5c00;border-bottom:1px solid #ffe082;line-height:1.6;text-align:center}
+#wa-hint b{color:#4a3700}
+.hdr{background:var(--ink);position:sticky;top:0;z-index:50;padding-top:env(safe-area-inset-top,0)}
+.hi{padding:12px 16px 8px}
+.hi h1{color:var(--gold);font-size:19px;font-weight:700;letter-spacing:.02em}
+.hi .sub{color:rgba(255,255,255,.55);font-size:10.5px;margin-top:2px}
+.gb{height:3px;background:var(--gold)}
+.verse{padding:7px 16px;font-size:10px;color:rgba(255,255,255,.5);font-style:italic;line-height:1.5;border-top:.5px solid rgba(255,255,255,.1)}
+.verse b{color:var(--gl);font-style:normal;font-weight:600}
+.tb{background:#fff;border-bottom:1px solid #e8e0d0;padding:9px 12px;display:flex;gap:8px;position:sticky;z-index:40}
+.sw{flex:1;position:relative}
+.sw input{width:100%;padding:8px 10px 8px 32px;border-radius:10px;border:1px solid #ddd8cc;background:#f8f4ee;font-size:14px;color:var(--ink);outline:none;-webkit-appearance:none}
+.sw input:focus{border-color:var(--gold)}
+.si{position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none}
+.fl{background:#fff;border-bottom:1px solid #e8e0d0;padding:8px 12px;display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;position:sticky;z-index:39}
+.fl::-webkit-scrollbar{display:none}
+.pill{padding:5px 13px;border-radius:20px;font-size:12px;font-weight:500;border:1.5px solid transparent;white-space:nowrap;cursor:pointer;background:#f0ece4;color:#777;-webkit-user-select:none}
+.ct{padding:10px 10px 80px}
+.sl{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:14px 2px 5px;display:flex;align-items:center;gap:8px}
+.sl::after{content:'';flex:1;height:1px;background:currentColor;opacity:.2}
+.en{display:grid;grid-template-columns:58px 26px 1fr;border-radius:11px;overflow:hidden;margin-bottom:5px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.07);-webkit-user-select:none}
+.en:active{opacity:.82}
+.en.now{box-shadow:0 0 0 2.5px var(--red),0 2px 8px rgba(226,75,74,.2)}
+.kc{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 3px;gap:1px}
+.kn{font-size:12px;font-weight:700;color:#fff;line-height:1.1;text-align:center}
+.kd{font-size:8px;color:rgba(255,255,255,.82);text-align:center;line-height:1.35;margin-top:1px}
+.nt{font-size:7px;color:#fff;background:rgba(255,255,255,.28);border-radius:3px;padding:1px 4px;margin-top:2px;font-weight:700}
+.bc{display:flex;align-items:center;justify-content:center}
+.bd{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff}
+.ic{padding:9px 10px 9px 5px;display:flex;flex-direction:column;justify-content:center}
+.nm{font-size:13px;font-weight:600;line-height:1.35}
+.mt2{font-size:10.5px;margin-top:2px;opacity:.68}
+.pv{font-size:10px;margin-top:3px;opacity:.55;line-height:1.4}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:100;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.ov.open{opacity:1;pointer-events:all}
+.sh{background:var(--cr);border-radius:20px 20px 0 0;width:100%;max-width:500px;padding-bottom:env(safe-area-inset-bottom,12px);transform:translateY(100%);transition:transform .28s cubic-bezier(.32,.72,0,1);max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.ov.open .sh{transform:translateY(0)}
+.hdl{width:38px;height:4px;border-radius:2px;background:#ccc;margin:12px auto 0}
+.shd{padding:14px 18px 12px;border-bottom:1px solid #e8e0d0}
+.stt{font-size:17px;font-weight:700;color:var(--ink)}
+.sdt{font-size:13px;color:#888;margin-top:3px}
+.skw{font-size:12px;font-weight:600;margin-top:3px}
+.tsk{padding:11px 18px;background:#fff;border-bottom:1px solid #e8e0d0}
+.tr{display:flex;align-items:center;gap:9px;padding:5px 0;font-size:13px;color:var(--ink)}
+.ti{font-size:15px;width:22px;text-align:center;flex-shrink:0}
+.plst{padding:6px 18px 10px}
+.pi{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:.5px solid #e8e0d0}
+.pi:last-child{border:none}
+.av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.pn{font-size:14px;color:var(--ink);font-weight:500}
+.cb{display:block;margin:4px 16px 6px;width:calc(100% - 32px);padding:12px;border-radius:11px;border:1.5px solid #ddd8cc;background:transparent;font-size:15px;color:#888;cursor:pointer;font-weight:500}
+.ft{position:fixed;bottom:0;left:0;right:0;background:var(--ink);color:rgba(255,255,255,.48);font-size:10px;font-style:italic;text-align:center;padding:7px 12px env(safe-area-inset-bottom,7px);line-height:1.5;z-index:30}
+.ft b{color:var(--gl);font-style:normal;font-weight:600}
+.emp{text-align:center;padding:3rem 1rem;color:#aaa;font-size:14px}
+</style>
+</head>
+<body>
+
+<div id="wa-hint">
+  &#9888; <b>In Safari &#246;ffnen</b> f&#252;r volle Funktion &#8212; unten rechts auf <b>&#8222;Mit Safari &#246;ffnen&#8220;</b> tippen.
+  Danach: Teilen &#8594; &#8222;Zum Home-Bildschirm&#8220; f&#252;r App-Icon.
+</div>
+
+<div class="hdr" id="hdr">
+  <div class="hi">
+    <h1>&#10022; Putzplan 2026&#8211;2027</h1>
+    <div class="sub">Freie Evangeliumschristengemeinde Nordhorn</div>
+  </div>
+  <div class="gb"></div>
+  <div class="verse">
+    <b>&#8222;Verflucht sei, der des HERRN Werk l&#228;ssig tut.&#8220;</b>&nbsp; Jeremia 48,10
+  </div>
+</div>
+
+<div class="tb" id="tb">
+  <div class="sw">
+    <span class="si">&#128269;</span>
+    <input type="search" id="srch" placeholder="Familie suchen&#8230;" autocomplete="off" autocorrect="off" spellcheck="false" oninput="doS()">
+  </div>
+</div>
+
+<div class="fl" id="fl">
+  <div class="pill" id="pa" onclick="setF('all')">Alle</div>
+  <div class="pill" id="pf" onclick="setF('f')">Fr&#252;hling</div>
+  <div class="pill" id="ps" onclick="setF('s')">Sommer</div>
+  <div class="pill" id="ph" onclick="setF('h')">Herbst</div>
+  <div class="pill" id="pw" onclick="setF('w')">Winter</div>
+</div>
+
+<div class="ct"><div id="grid"></div></div>
+
+<div class="ft">
+  <b>&#8222;Verflucht sei, der des HERRN Werk l&#228;ssig tut.&#8220;</b> &#8212; Jeremia 48,10
+</div>
+
+<div class="ov" id="ov" onclick="ovc(event)">
+  <div class="sh">
+    <div class="hdl"></div>
+    <div class="shd">
+      <div class="stt" id="mt"></div>
+      <div class="sdt" id="md"></div>
+      <div class="skw" id="mk"></div>
+    </div>
+    <div class="tsk">
+      <div class="tr"><span class="ti">&#128701;</span>Nach jedem Gottesdienst: Toiletten reinigen</div>
+      <div class="tr"><span class="ti">&#129531;</span>Nach jedem Gottesdienst: Handt&#252;cher wechseln</div>
+      <div class="tr"><span class="ti">&#128465;</span>Nach jedem Gottesdienst: M&#252;lltonnen leeren</div>
+      <div class="tr"><span class="ti">&#129529;</span>1&#215; w&#246;chentlich: Staubsaugen &amp; Staubwischen</div>
+    </div>
+    <div class="plst" id="mpl"></div>
+    <button class="cb" onclick="closeSh()">Schlie&#223;en</button>
+  </div>
+</div>
+
+<script>
+var D=[
+{s:"f",g:12,v:"2026-03-21",b:"2026-04-03",p:["Kempf Artjom","Minich Adolf","Minich Melanie","Shvetsov Nikita"]},
+{s:"f",g:13,v:"2026-04-04",b:"2026-04-17",p:["Bensch Mario","Bensch Albina","Kempf Wilhelm","Kempf Ida"]},
+{s:"f",g:14,v:"2026-04-18",b:"2026-05-01",p:["Mittelstet Jonas","Mittelstet Jenny","Shamoyan Elisabetha","Shamoyan Surik"]},
+{s:"f",g:15,v:"2026-05-02",b:"2026-05-15",p:["Belyj Ina","Mittelstet Sammy","Warnke Marvin","Warnke Delia"]},
+{s:"f",g:16,v:"2026-05-16",b:"2026-05-29",p:["Koberstein Valentin","Koberstein Inge","Koch Simon","Koch Diana"]},
+{s:"f",g:17,v:"2026-05-30",b:"2026-06-12",p:["Mittelstet Alex","Mittelstet Natalia","Mittelstet Fabian","Mittelstet Rahel"]},
+{s:"s",g:1,v:"2026-06-13",b:"2026-06-26",p:["Klepa Sergej","Klepa Olena","Klepa Ella","Tsvietkov Vladislav"]},
+{s:"s",g:2,v:"2026-06-27",b:"2026-07-10",p:["Sliusar Oleg","Sliusar Olga","Sliusar Leonid","Sliusar Kessy"]},
+{s:"s",g:3,v:"2026-07-11",b:"2026-07-24",p:["Hoffmann Daniel","Hoffmann Marjana","Andrijaka Ruslan","Warnke Sophie"]},
+{s:"s",g:4,v:"2026-07-25",b:"2026-08-07",p:["Shvetsov Michail","Shvetsov Julia","Butakova Adelina","Butakova Lila"]},
+{s:"s",g:5,v:"2026-08-08",b:"2026-08-21",p:["Ochs Friedrich","Ozerniuk Anton","Ozerniuk Vika","Makus Adolf"]},
+{s:"s",g:6,v:"2026-08-22",b:"2026-09-04",p:["Eisenbraun Sigi","Eisenbraun Irma","Eisenbraun Mia","Alkema Timofej"]},
+{s:"s",g:7,v:"2026-09-05",b:"2026-09-18",p:["Fischer Willi","Fischer Lilija","Kempf Walentina","Mittelstet Liana"]},
+{s:"s",g:8,v:"2026-09-19",b:"2026-10-02",p:["Bensch Helena","Bensch Robert","Mittelstet Juri","Mittelstet Oksana"]},
+{s:"h",g:9,v:"2026-10-03",b:"2026-10-16",p:["Warnke Alex","Warnke Lene","Warnke Laura","Kotiasch Olga"]},
+{s:"h",g:10,v:"2026-10-17",b:"2026-10-30",p:["Shamoyan Eduard","Shamoyan Gajane","Shamoyan Kristina","Tamoyan David"]},
+{s:"h",g:11,v:"2026-10-31",b:"2026-11-13",p:["Bensch Marcel","Bensch Shantal","Bensch Oliver","Bensch Anja"]},
+{s:"h",g:12,v:"2026-11-14",b:"2026-11-27",p:["Kempf Artjom","Minich Adolf","Minich Melanie","Shvetsov Nikita"]},
+{s:"h",g:13,v:"2026-11-28",b:"2026-12-11",p:["Bensch Mario","Bensch Albina","Kempf Wilhelm","Kempf Ida"]},
+{s:"w",g:14,v:"2026-12-12",b:"2026-12-25",p:["Mittelstet Jonas","Mittelstet Jenny","Shamoyan Elisabetha","Shamoyan Surik"]},
+{s:"w",g:15,v:"2026-12-26",b:"2027-01-08",p:["Belyj Ina","Mittelstet Sammy","Warnke Marvin","Warnke Delia"]},
+{s:"w",g:16,v:"2027-01-09",b:"2027-01-22",p:["Koberstein Valentin","Koberstein Inge","Koch Simon","Koch Diana"]},
+{s:"w",g:17,v:"2027-01-23",b:"2027-02-05",p:["Mittelstet Alex","Mittelstet Natalia","Mittelstet Fabian","Mittelstet Rahel"]},
+{s:"w",g:1,v:"2027-02-06",b:"2027-02-19",p:["Klepa Sergej","Klepa Olena","Klepa Ella","Tsvietkov Vladislav"]},
+{s:"w",g:2,v:"2027-02-20",b:"2027-03-05",p:["Sliusar Oleg","Sliusar Olga","Sliusar Leonid","Sliusar Kessy"]},
+{s:"f",g:3,v:"2027-03-06",b:"2027-03-19",p:["Hoffmann Daniel","Hoffmann Marjana","Andrijaka Ruslan","Warnke Sophie"]},
+{s:"f",g:4,v:"2027-03-20",b:"2027-04-02",p:["Shvetsov Michail","Shvetsov Julia","Butakova Adelina","Butakova Lila"]},
+{s:"f",g:5,v:"2027-04-03",b:"2027-04-16",p:["Ochs Friedrich","Ozerniuk Anton","Ozerniuk Vika","Makus Adolf"]},
+{s:"f",g:6,v:"2027-04-17",b:"2027-04-30",p:["Eisenbraun Sigi","Eisenbraun Irma","Eisenbraun Mia","Alkema Timofej"]},
+{s:"f",g:7,v:"2027-05-01",b:"2027-05-14",p:["Fischer Willi","Fischer Lilija","Kempf Walentina","Mittelstet Liana"]},
+{s:"f",g:8,v:"2027-05-15",b:"2027-05-28",p:["Bensch Helena","Bensch Robert","Mittelstet Juri","Mittelstet Oksana"]},
+{s:"f",g:9,v:"2027-05-29",b:"2027-06-11",p:["Warnke Alex","Warnke Lene","Warnke Laura","Kotiasch Olga"]},
+{s:"s",g:10,v:"2027-06-12",b:"2027-06-25",p:["Shamoyan Eduard","Shamoyan Gajane","Shamoyan Kristina","Tamoyan David"]},
+{s:"s",g:11,v:"2027-06-26",b:"2027-07-09",p:["Bensch Marcel","Bensch Shantal","Bensch Oliver","Bensch Anja"]},
+{s:"s",g:12,v:"2027-07-10",b:"2027-07-23",p:["Kempf Artjom","Minich Adolf","Minich Melanie","Shvetsov Nikita"]},
+{s:"s",g:13,v:"2027-07-24",b:"2027-08-06",p:["Bensch Mario","Bensch Albina","Kempf Wilhelm","Kempf Ida"]},
+{s:"s",g:14,v:"2027-08-07",b:"2027-08-20",p:["Mittelstet Jonas","Mittelstet Jenny","Shamoyan Elisabetha","Shamoyan Surik"]},
+{s:"s",g:15,v:"2027-08-21",b:"2027-09-03",p:["Belyj Ina","Mittelstet Sammy","Warnke Marvin","Warnke Delia"]},
+{s:"h",g:16,v:"2027-09-04",b:"2027-09-17",p:["Koberstein Valentin","Koberstein Inge","Koch Simon","Koch Diana"]},
+{s:"h",g:17,v:"2027-09-18",b:"2027-10-01",p:["Mittelstet Alex","Mittelstet Natalia","Mittelstet Fabian","Mittelstet Rahel"]},
+{s:"h",g:1,v:"2027-10-02",b:"2027-10-15",p:["Klepa Sergej","Klepa Olena","Klepa Ella","Tsvietkov Vladislav"]}
+];
+
+var SC={
+  f:{bg:"#D8EDE0",ac:"#4A7A55",tx:"#1A3A25",nm:"Fr\u00fchling 2026"},
+  s:{bg:"#F2E8B8",ac:"#A89028",tx:"#4A3A08",nm:"Sommer 2026"},
+  h:{bg:"#F5E6D8",ac:"#C97C40",tx:"#6B3010",nm:"Herbst 2026"},
+  w:{bg:"#D8E8F2",ac:"#3A6E8F",tx:"#1A3A50",nm:"Winter 2026/27"}
+};
+
+// Dynamically update season names based on year of first occurrence
+(function(){
+  var seen={};
+  D.forEach(function(r){
+    if(!seen[r.s]){
+      seen[r.s]=true;
+      var yr=r.v.split("-")[0];
+      var yr2=(parseInt(yr)+1).toString().slice(2);
+      if(r.s==="f") SC.f.nm="Fr\u00fchling "+yr;
+      else if(r.s==="s") SC.s.nm="Sommer "+yr;
+      else if(r.s==="h") SC.h.nm="Herbst "+yr;
+      else if(r.s==="w") SC.w.nm="Winter "+yr+"/"+yr2;
+    }
+  });
+})();
+
+var AV=["#B85C38","#4A7C6F","#5B8DB8","#9B6BB5","#C9A84C","#E27A50","#5AA878","#D4608A"];
+var PILLCLS={all:"background:#1A1A2E;color:#fff;border-color:#1A1A2E",
+             h:"background:#C97C40;color:#fff",
+             w:"background:#3A6E8F;color:#fff",
+             f:"background:#4A7A55;color:#fff",
+             s:"background:#A89028;color:#fff"};
+var filt="all",vis=[],sq="";
+
+var ua=navigator.userAgent||"";
+if(/iPhone|iPad/.test(ua)&&!/Safari\//.test(ua)){
+  document.getElementById("wa-hint").style.display="block";
+}
+
+function kw(ds){
+  var d=new Date(ds+"T12:00:00");
+  var t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));
+  t.setUTCDate(t.getUTCDate()+4-(t.getUTCDay()||7));
+  var y=new Date(Date.UTC(t.getUTCFullYear(),0,1));
+  return{w:Math.ceil((((t-y)/86400000)+1)/7),yr:t.getUTCFullYear()};
+}
+function fmt(ds){var p=ds.split("-");return p[2]+"."+p[1]+"."+p[0].slice(2);}
+function ini(n){var p=n.trim().split(" ");return(p[0][0]+(p[1]?p[1][0]:"")).toUpperCase();}
+function isNow(r){var n=new Date();n.setHours(0,0,0,0);return n>=new Date(r.v)&&n<=new Date(r.b+"T23:59:59");}
+
+function setF(f){
+  filt=f;
+  ["pa","ph","pw","pf","ps"].forEach(function(id){document.getElementById(id).removeAttribute("style");});
+  var idmap={all:"pa",h:"ph",w:"pw",f:"pf",s:"ps"};
+  document.getElementById(idmap[f]).setAttribute("style",PILLCLS[f]);
+  render();
+}
+
+function doS(){sq=document.getElementById("srch").value.toLowerCase();render();}
+
+function render(){
+  vis=D.filter(function(r){
+    if(filt!=="all"&&r.s!==filt)return false;
+    if(sq&&!r.p.some(function(x){return x.toLowerCase().indexOf(sq)>=0;}))return false;
+    return true;
+  });
+  var h="",ls="";
+  // Track season labels already shown (season name can repeat across years)
+  var shownSeasons={};
+  vis.forEach(function(r,i){
+    var c=SC[r.s],kv=kw(r.v),kb=kw(r.b),now=isNow(r),ac=now?"#E24B4A":c.ac;
+    var fn=r.p.slice(0,2).map(function(x){return x.split(" ")[0];}).join(", ")+(r.p.length>2?" +"+(r.p.length-2):"");
+    var pv=r.p.slice(2).map(function(x){return x.split(" ")[0];}).join(", ");
+    var kwt=kv.w===kb.w?"KW "+kv.w:"KW "+kv.w+"/"+kb.w;
+    // Build a unique season-year key to allow re-labelling same season in next year
+    var yr=r.v.split("-")[0];
+    var seasonKey=r.s+yr;
+    if(seasonKey!==ls){
+      if(ls!=="")h+="<div style='height:4px'></div>";
+      // Determine display name with correct year
+      var nm=c.nm;
+      if(r.s==="f") nm="Fr\u00fchling "+yr;
+      else if(r.s==="s") nm="Sommer "+yr;
+      else if(r.s==="h") nm="Herbst "+yr;
+      else if(r.s==="w"){var yr2=(parseInt(yr)+1).toString().slice(2); nm="Winter "+yr+"/"+yr2;}
+      h+="<div class='sl' style='color:"+c.ac+"'>"+nm+"</div>";
+      ls=seasonKey;
+    }
+    h+="<div class='en"+(now?" now":"")+"' onclick='opM("+i+")' style='background:"+c.bg+"'>";
+    h+="<div class='kc' style='background:"+ac+"'>";
+    h+="<div class='kn'>"+kwt+"</div>";
+    h+="<div class='kd'>"+fmt(r.v)+"<br>"+fmt(r.b)+"</div>";
+    if(now)h+="<div class='nt'>JETZT</div>";
+    h+="</div>";
+    h+="<div class='bc' style='background:"+c.bg+"'><div class='bd' style='background:"+c.ac+"'>"+r.g+"</div></div>";
+    h+="<div class='ic'>";
+    h+="<div class='nm' style='color:"+c.tx+"'>"+fn+"</div>";
+    h+="<div class='mt2' style='color:"+c.tx+"'>Gruppe "+r.g+" &middot; "+r.p.length+" Pers.</div>";
+    if(pv)h+="<div class='pv' style='color:"+c.tx+"'>"+pv+"</div>";
+    h+="</div></div>";
+  });
+  if(!vis.length)h="<div class='emp'>Keine Eintr\u00e4ge gefunden</div>";
+  document.getElementById("grid").innerHTML=h;
+  if(!sq&&filt==="all"){
+    setTimeout(function(){
+      var el=document.querySelector(".now");
+      if(el)el.scrollIntoView({behavior:"smooth",block:"center"});
+    },150);
+  }
+}
+
+function opM(i){
+  var r=vis[i],c=SC[r.s],kv=kw(r.v),kb=kw(r.b);
+  document.getElementById("mt").textContent="Gruppe "+r.g;
+  document.getElementById("md").textContent=fmt(r.v)+" bis "+fmt(r.b);
+  document.getElementById("mk").textContent="KW "+kv.w+(kv.w!==kb.w?" - "+kb.w:"")+" / "+kv.yr;
+  document.getElementById("mk").style.color=c.ac;
+  var ph="";
+  r.p.forEach(function(p,j){
+    var av=AV[j%AV.length];
+    ph+="<div class='pi'><div class='av' style='background:"+av+"22;color:"+av+"'>"+ini(p)+"</div><div class='pn'>"+p+"</div></div>";
+  });
+  document.getElementById("mpl").innerHTML=ph;
+  document.getElementById("ov").classList.add("open");
+  document.body.style.overflow="hidden";
+}
+function closeSh(){document.getElementById("ov").classList.remove("open");document.body.style.overflow="";}
+function ovc(e){if(e.target===document.getElementById("ov"))closeSh();}
+
+function fix(){
+  var hh=document.getElementById("hdr").offsetHeight;
+  var th=document.getElementById("tb").offsetHeight;
+  document.getElementById("tb").style.top=hh+"px";
+  document.getElementById("fl").style.top=(hh+th)+"px";
+}
+window.addEventListener("resize",fix);
+fix();
+setF("all");
+</script>
+</body>
+</html>
